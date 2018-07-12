@@ -15,6 +15,8 @@ $ipaddress = ([System.Net.DNS]::GetHostAddresses('PasteMachineNameHere')|Where-O
 $JbossWinTestUser = "bcaa.bc.ca\JbossWinTest"
 $nbatchtUser = "bcaa.bc.ca\nbatcht"
 $bamboouser = "bcaa.bc.ca\bamboo"
+$oracleClientSourcePath = '\\bcaa.bc.ca\go\Support\Sw_apps\Oracle\12c\client'
+$oracleClientSetupExecutable = 'D:\OracleClient12\setup.exe'
 
 # Function Copy Item
 
@@ -58,6 +60,7 @@ CopyItem -from $certsShare -to $dDrivePath
 #copy certificates to D:\Java\jdk1.8.0_112\jre\lib\security
 
 CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_112\jre\lib\security'
+
 # Unzip jboss-as-NEAT_NonProd.zip to d:\jboss\jboss-eap-6.4.0
 
 Add-Type -assembly "system.io.compression.filesystem"
@@ -75,3 +78,10 @@ cmd.exe /c "D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\modules\system\layers\base\na
 # add BCAA domain users to local Administrators Group
 
 Add-LocalGroupMember -Group "Administrators" -Member $JbossWinTestUser, $nbatchtUser, $bamboouser
+
+# Copy and install oracle client 12c
+
+CopyItem -from  $oracleClientSourcePath -to 'd:\' -wait
+Rename-Item -Path 'd:\client' -NewName "OracleClient12"
+& $oracleClientSetupExecutable -wait
+CopyItem -from 'D:\Oracle\product\12.1.0\client_1\jdbc\lib' -to 'D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone\deployments\'
