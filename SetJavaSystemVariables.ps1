@@ -1,7 +1,24 @@
+
+# ******************* New Neat Server Setup *******************
+
+# Variables
 ﻿$BackUpPath = 'd:\jboss\jboss-as-NEAT_NonProd.zip'
 $destination = 'd:\jboss\jboss-eap-6.4.0'
+$desktopPath = [Environment]::GetFolderPath("Desktop")
+$BlazeDataLogFilesPath = d:\BlazeDataLogFiles
+$jbossPath = d:\jboss
 
+# Function Copy Item
 
+Function CopyItem ($from, $to)
+{
+    if (!(Test-Path $to)) {
+        md $to
+    }
+    Copy-Item -Path $from $to -Recurse -Force
+    $?
+   if($false) {Return}
+ }
 # Add Java System Variables
 
 [System.Environment]::SetEnvironmentVariable('JAVA_HOME', 'D:\Java\jdk1.8.0_172' , [System.EnvironmentVariableTarget]::Machine)
@@ -9,20 +26,27 @@ $destination = 'd:\jboss\jboss-eap-6.4.0'
 [System.Environment]::SetEnvironmentVariable('NOPAUSE', 1, [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable('SERVER_OPTS', '-b 0.0.0.0 -c standalone-full.xml -b 0.0.0.0 -c standalone-full.xml -P=%JBOSS_HOME%\standalone\deployments\neat.properties', [System.EnvironmentVariableTarget]::Machine)
 
-# Copy DB connector driver
-
-Copy-Item -Path '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -Destination 'c:\Windows'
-Copy-Item -Path '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -Destination 'd:\tmp'
-
 # Create Folders
 
-New-Item -ItemType directory -Path d:\BlazeDataLogFiles
-New-Item -ItemType directory -Path d:\jboss
+New-Item -ItemType directory -Path $BlazeDataLogFilesPath
+New-Item -ItemType directory -Path $jbossPath
+
+# Copy DB connector driver
+
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -to 'c:\Windows'
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -to 'd:\tmp'
 
 # Copy jboss-as-NEAT_NonProd.zip to d:\jboss
 
-Copy-Item '\\n-test-as22\d$\jboss\jboss-as-NEAT_NonProd.zip' -Destination 'd:\jboss'
+CopyItem -from '\\n-test-as22\d$\jboss\jboss-as-NEAT_NonProd.zip' -to 'd:\jboss'
 
+# copy \\n-test-as22\d$\scripts folder to d:\scripts and
+
+CopyItem -from '\\n-test-as22\d$\scripts' -to 'd:\' -Recurse
+
+# copy certificates
+
+CopyItem -from \\nea-tst-app030\c$\Users\johng\Desktop\certs -to $desktopPath
 # Unzip jboss-as-NEAT_NonProd.zip to d:\jboss\jboss-eap-6.4.0
 
 Add-Type -assembly "system.io.compression.filesystem"
@@ -31,10 +55,4 @@ Add-Type -assembly "system.io.compression.filesystem"
 
 # share the folder D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone with everyone
 
-NET SHARE standalone=D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone "/GRANT:Everyone,READ" 
-
-# copy \\n-test-as22\d$\scripts folder to d:\scripts and 
-
-Copy-Item '\\n-test-as22\d$\scripts' -Destination 'd:\scripts'
-
-
+NET SHARE standalone=D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone "/GRANT:Everyone,READ"
