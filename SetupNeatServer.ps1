@@ -11,6 +11,11 @@ $tmpPath = 'd:\tmp'
 $dDrivePath = 'd:\'
 $certsShare = '\\nea-tst-app030\c$\Users\johng\Desktop\certs'
 $certsLocal = 'd:\certs'
+$ipaddress = ([System.Net.DNS]::GetHostAddresses('PasteMachineNameHere')|Where-Object {$_.AddressFamily -eq "InterNetwork"}   |  select-object IPAddressToString)[0].IPAddressToString
+$JbossWinTestUser = "bcaa.bc.ca\JbossWinTest"
+$nbatchtUser = "bcaa.bc.ca\nbatcht"
+$bamboouser = "bcaa.bc.ca\bamboo"
+
 # Function Copy Item
 
 Function CopyItem ($from, $to)
@@ -62,3 +67,11 @@ Add-Type -assembly "system.io.compression.filesystem"
 # share the folder D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone with everyone
 
 NET SHARE standalone=D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone "/GRANT:Everyone,READ"
+
+# Install Jboss service
+
+cmd.exe /c "D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\modules\system\layers\base\native\sbin\service.bat install /controller $ipaddress"
+
+# add BCAA domain users to local Administrators Group
+
+Add-LocalGroupMember -Group "Administrators" -Member $JbossWinTestUser, $nbatchtUser, $bamboouser
