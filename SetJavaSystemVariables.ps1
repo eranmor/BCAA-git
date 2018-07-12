@@ -3,7 +3,7 @@
 
 # Variables
 ﻿$BackUpPath = 'd:\jboss\jboss-as-NEAT_NonProd.zip'
-$destination = 'd:\jboss\jboss-eap-6.4.0'
+$jbossDestination = 'd:\jboss\jboss-eap-6.4.0'
 $BlazeDataLogFilesPath = "d:\BlazeDataLogFiles"
 $jbossPath = "d:\jboss"
 $windowsPath = 'c:\Windows'
@@ -52,12 +52,12 @@ CopyItem -from $certsShare -to $dDrivePath
 
 #copy certificates to D:\Java\jdk1.8.0_112\jre\lib\security
 
-CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_112\jre\lib\security' 
+CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_112\jre\lib\security'
 # Unzip jboss-as-NEAT_NonProd.zip to d:\jboss\jboss-eap-6.4.0
 
 Add-Type -assembly "system.io.compression.filesystem"
 
-[io.compression.zipfile]::ExtractToDirectory($BackUpPath, $destination)
+[io.compression.zipfile]::ExtractToDirectory($BackUpPath, $jbossDestination)
 
 # share the folder D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone with everyone
 
