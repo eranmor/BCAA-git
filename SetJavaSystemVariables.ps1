@@ -4,10 +4,13 @@
 # Variables
 ﻿$BackUpPath = 'd:\jboss\jboss-as-NEAT_NonProd.zip'
 $destination = 'd:\jboss\jboss-eap-6.4.0'
-$desktopPath = [Environment]::GetFolderPath("Desktop")
-$BlazeDataLogFilesPath = d:\BlazeDataLogFiles
-$jbossPath = d:\jboss
-
+$BlazeDataLogFilesPath = "d:\BlazeDataLogFiles"
+$jbossPath = "d:\jboss"
+$windowsPath = 'c:\Windows'
+$tmpPath = 'd:\tmp'
+$dDrivePath = 'd:\'
+$certsShare = '\\nea-tst-app030\c$\Users\johng\Desktop\certs'
+$certsLocal = 'd:\certs'
 # Function Copy Item
 
 Function CopyItem ($from, $to)
@@ -33,20 +36,23 @@ New-Item -ItemType directory -Path $jbossPath
 
 # Copy DB connector driver
 
-CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -to 'c:\Windows'
-CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -to 'd:\tmp'
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -to $windowsPath, $tmpPath
 
 # Copy jboss-as-NEAT_NonProd.zip to d:\jboss
 
-CopyItem -from '\\n-test-as22\d$\jboss\jboss-as-NEAT_NonProd.zip' -to 'd:\jboss'
+CopyItem -from '\\n-test-as22\d$\jboss\jboss-as-NEAT_NonProd.zip' -to $jbossPath
 
 # copy \\n-test-as22\d$\scripts folder to d:\scripts and
 
-CopyItem -from '\\n-test-as22\d$\scripts' -to 'd:\' -Recurse
+CopyItem -from '\\n-test-as22\d$\scripts' -to $dDrivePath -Recurse
 
 # copy certificates
 
-CopyItem -from \\nea-tst-app030\c$\Users\johng\Desktop\certs -to $desktopPath
+CopyItem -from $certsShare -to $dDrivePath
+
+#copy certificates to D:\Java\jdk1.8.0_112\jre\lib\security
+
+CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_112\jre\lib\security' 
 # Unzip jboss-as-NEAT_NonProd.zip to d:\jboss\jboss-eap-6.4.0
 
 Add-Type -assembly "system.io.compression.filesystem"
