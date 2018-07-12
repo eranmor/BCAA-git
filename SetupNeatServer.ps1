@@ -1,6 +1,6 @@
 
 # ******************* New Neat Server Setup *******************
-
+# Author: Eran.Mor@bcaa.com
 # Variables
 ﻿$BackUpPath = 'd:\jboss\jboss-as-NEAT_NonProd.zip'
 $jbossDestination = 'd:\jboss\jboss-eap-6.4.0'
