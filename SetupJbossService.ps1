@@ -1,22 +1,22 @@
 
 # ******************* New Neat Server Setup *******************
-# Author: Eran.Mor@bcaa.com
+# Author: Eran Mor eran.mor@bcaa.com
 # Variables
-﻿$BackUpPath = 'd:\jboss\jboss-as-NEAT_NonProd.zip'
-$jbossDestination = 'd:\jboss\jboss-eap-6.4.0'
+﻿$BackUpPath = "d:\jboss\jboss-as-NEAT_NonProd.zip"
+$jbossDestination = "d:\jboss\jboss-eap-6.4.0"
 $BlazeDataLogFilesPath = "d:\BlazeDataLogFiles"
 $jbossPath = "d:\jboss"
-$windowsPath = 'c:\Windows'
-$tmpPath = 'd:\tmp'
-$dDrivePath = 'd:\'
-$certsShare = '\\nea-tst-app030\c$\Users\johng\Desktop\certs'
-$certsLocal = 'd:\certs'
+$windowsPath = "c:\Windows"
+$ProgramFiles = "C:\Program Files (x86)"
+$dDrivePath = "d:\"
+$certsShare = "\\nea-tst-app030\c$\Users\johng\Desktop\certs"
+$certsLocal = "d:\certs"
 $ipaddress = ([System.Net.DNS]::GetHostAddresses('PasteMachineNameHere')|Where-Object {$_.AddressFamily -eq "InterNetwork"}   |  select-object IPAddressToString)[0].IPAddressToString
 $JbossWinTestUser = "bcaa.bc.ca\JbossWinTest"
 $nbatchtUser = "bcaa.bc.ca\nbatcht"
 $bamboouser = "bcaa.bc.ca\bamboo"
-$oracleClientSourcePath = '\\bcaa.bc.ca\go\Support\Sw_apps\Oracle\12c\client'
-$oracleClientSetupExecutable = 'D:\OracleClient12\setup.exe'
+$CygwinFolder = "c:\"
+
 
 # Function Copy Item
 
@@ -38,13 +38,20 @@ Function CopyItem ($from, $to)
 
 # Create Folders
 
-New-Item -ItemType directory -Path $BlazeDataLogFilesPath
-New-Item -ItemType directory -Path $jbossPath
+New-Item -ItemType directory -Path $BlazeDataLogFilesPath, $jbossPath
+# New-Item -ItemType directory -Path $jbossPath
 
 # Copy DB connector driver
 
-CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -to $windowsPath, $tmpPath
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -to $windowsPath
 
+# copy pdfprint_cmd to ProgramFiles
+
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\pdfprint_cmd' -to $ProgramFiles
+
+# Copy cygwin
+
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\' -to $CygwinFolder
 # Copy jboss-as-NEAT_NonProd.zip to d:\jboss
 
 CopyItem -from '\\n-test-as22\d$\jboss\jboss-as-NEAT_NonProd.zip' -to $jbossPath
@@ -78,10 +85,3 @@ cmd.exe /c "D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\modules\system\layers\base\na
 # add BCAA domain users to local Administrators Group
 
 Add-LocalGroupMember -Group "Administrators" -Member $JbossWinTestUser, $nbatchtUser, $bamboouser
-
-# Copy and install oracle client 12c
-
-CopyItem -from  $oracleClientSourcePath -to 'd:\' -wait
-Rename-Item -Path 'd:\client' -NewName "OracleClient12"
-& $oracleClientSetupExecutable -wait
-CopyItem -from 'D:\Oracle\product\12.1.0\client_1\jdbc\lib' -to 'D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone\deployments\'
