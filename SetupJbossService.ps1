@@ -45,31 +45,31 @@ New-Item -ItemType directory -Path $BlazeDataLogFilesPath, $jbossPath -wait
 
 Write-Host 'Copying DB connector driver'
 
-CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -to $windowsPath -wait
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -to $windowsPath -Force -wait
 
 Write-Host 'Copying pdfprint_cmd to ProgramFiles Folder'
 
-CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\pdfprint_cmd' -to $ProgramFiles -Recurse -wait
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\pdfprint_cmd' -to $ProgramFiles -Force -Recurse -wait
 
 Write-Host 'copying cygwin to c drive'
 
-CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\' -to $CygwinFolder -Recurse -wait
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\' -to $CygwinFolder -Force -Recurse -wait
 
 Write-Host 'Copying jboss-as-NEAT_NonProd.zip to d:\jboss'
 
-CopyItem -from '\\n-test-as22\d$\jboss\jboss-as-NEAT_NonProd.zip' -to $jbossPath -wait
+CopyItem -from '\\n-test-as22\d$\jboss\jboss-as-NEAT_NonProd.zip' -to $jbossPath -Force -wait
 
 Write-Host 'Copying \\n-test-as22\d$\scripts folder to d:\scripts'
 
-CopyItem -from '\\n-test-as22\d$\scripts' -to $dDrivePath -Recurse -wait
+CopyItem -from '\\n-test-as22\d$\scripts' -to $dDrivePath -Force -Recurse -wait
 
 Write-Host 'Copying certificates'
 
-CopyItem -from $certsShare -to $dDrivePath -Recurse -wait
+CopyItem -from $certsShare -to $dDrivePath -Force -Recurse -wait
 
 Write-Host 'copy certificates to D:\Java\jdk1.8.0_112\jre\lib\security'
 
-CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_112\jre\lib\security' -Recurse -wait
+CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_112\jre\lib\security' -Force -Recurse -wait
 
 Write-Host 'Unzip jboss-as-NEAT_NonProd.zip to d:\jboss\jboss-eap-6.4.0'
 
