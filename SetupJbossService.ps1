@@ -6,11 +6,12 @@
 ﻿$BackUpPath = "d:\jboss\jboss-as-NEAT_NonProd.zip"
 $jbossDestination = "d:\jboss\jboss-eap-6.4.0"
 $BlazeDataLogFilesPath = "d:\BlazeDataLogFiles"
+$JbossZipLocation = '\\n-build-as2\e$\bamboo-home\BuildArchive\TrunkBuildServer\LOCAL_BUILD\jboss-as-NEAT_NonProd.zip'
 $jbossPath = "d:\jboss"
 $windowsPath = "c:\Windows"
 $ProgramFiles = "C:\Program Files (x86)"
 $dDrivePath = "d:\"
-$certsShare = "\\nea-tst-app030\c$\Users\johng\Desktop\certs"
+$certsShare = "\\nea-tst-app030\c$\users\johng\desktop\Certs\"
 $certsLocal = "d:\certs"
 $ip=get-WmiObject Win32_NetworkAdapterConfiguration|Where {$_.Ipaddress.length -gt 1}
 $ipaddress = $ip.ipaddress[0]
@@ -20,17 +21,6 @@ $bamboouser = "bcaa.bc.ca\bamboo"
 $CygwinFolder = "c:\"
 
 
-# Function Copy Item
-
-Function CopyItem ($from, $to)
-{
-    if (!(Test-Path $to)) {
-        md $to
-    }
-    Copy-Item -Path $from $to -Recurse -Force
-    $?
-   if($false) {Return}
- }
 # Add Java System Variables
 
 [System.Environment]::SetEnvironmentVariable('JAVA_HOME', 'D:\Java\jdk1.8.0_172' , [System.EnvironmentVariableTarget]::Machine)
@@ -40,7 +30,7 @@ Function CopyItem ($from, $to)
 
 write-host 'Creating d:\BlazeDataLogFiles and d:\jboss Folders'
 
-New-Item -ItemType directory -Path $BlazeDataLogFilesPath, $jbossPath -wait
+New-Item -ItemType directory -Path $BlazeDataLogFilesPath, $jbossPath
 # New-Item -ItemType directory -Path $jbossPath
 
 Write-Host 'Copying DB connector driver'
@@ -57,7 +47,7 @@ CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\' -to $CygwinFolder 
 
 Write-Host 'Copying jboss-as-NEAT_NonProd.zip to d:\jboss'
 
-CopyItem -from '\\n-test-as22\d$\jboss\jboss-as-NEAT_NonProd.zip' -to $jbossPath -Force -wait
+CopyItem -from $JbossZipLocation -to $jbossPath -Force -wait
 
 Write-Host 'Copying \\n-test-as22\d$\scripts folder to d:\scripts'
 
@@ -88,3 +78,15 @@ cmd.exe /c "D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\modules\system\layers\base\na
 Write-Host 'Adding BCAA domain users to local Administrators Group'
 
 Add-LocalGroupMember -Group "Administrators" -Member $JbossWinTestUser, $nbatchtUser, $bamboouser
+
+# Function Copy Item
+
+Function CopyItem ($from, $to)
+{
+    if (!(Test-Path $to)) {
+        md $to
+    }
+    Copy-Item -Path $from $to -Recurse -Force
+    $?
+   if($false) {Return}
+ }
