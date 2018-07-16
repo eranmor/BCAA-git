@@ -1,12 +1,16 @@
+﻿<#
 
-# ******************* New Neat Server Setup *******************
-# Author: Eran Mor eran.mor@bcaa.com
-# Variables
+******************* New Neat Server Setup *******************
+ Author: Eran Mor eran.mor@bcaa.com
+ Variables
 
-﻿$BackUpPath = "d:\jboss\jboss-as-NEAT_NonProd.zip"
+#>
+
+
+$ZipLocalPath = "d:\jboss\jboss-as-NEAT_NonProd.zip"
 $jbossDestination = "d:\jboss\jboss-eap-6.4.0"
 $BlazeDataLogFilesPath = "d:\BlazeDataLogFiles"
-$JbossZipLocation = '\\n-build-as2\e$\bamboo-home\BuildArchive\TrunkBuildServer\LOCAL_BUILD\jboss-as-NEAT_NonProd.zip'
+$JbossZipLocation = "\\n-build-as2\e$\bamboo-home\BuildArchive\TrunkBuildServer\LOCAL_BUILD\jboss-as-NEAT_NonProd.zip"
 $jbossPath = "d:\jboss"
 $windowsPath = "c:\Windows"
 $ProgramFiles = "C:\Program Files (x86)"
@@ -19,7 +23,17 @@ $JbossWinTestUser = "bcaa.bc.ca\JbossWinTest"
 $nbatchtUser = "bcaa.bc.ca\nbatcht"
 $bamboouser = "bcaa.bc.ca\bamboo"
 $CygwinFolder = "c:\"
+$ScriptsShare = "\\nova\IS\NEAT"
 
+Function CopyItem ($from, $to)
+{
+    if (!(Test-Path $to)) {
+        md $to
+    }
+    Copy-Item -Path $from $to -Recurse -Force
+    $?
+   if($false) {Return}
+}
 
 # Add Java System Variables
 
@@ -39,33 +53,33 @@ CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\sqljdbc_auth.dll' -t
 
 Write-Host 'Copying pdfprint_cmd to ProgramFiles Folder'
 
-CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\pdfprint_cmd' -to $ProgramFiles -Force -Recurse -wait
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\pdfprint_cmd' -to $ProgramFiles -Force -verbose -Recurse -wait
 
 Write-Host 'copying cygwin to c drive'
 
-CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\' -to $CygwinFolder -Force -Recurse -wait
+CopyItem -from '\\Nova\public\John Goodsell\BuildNeatServer\' -to $CygwinFolder -Force -verbose -Recurse -wait
 
 Write-Host 'Copying jboss-as-NEAT_NonProd.zip to d:\jboss'
 
 CopyItem -from $JbossZipLocation -to $jbossPath -Force -wait
 
-Write-Host 'Copying \\n-test-as22\d$\scripts folder to d:\scripts'
+Write-Host 'Copying \scripts folder to d:\scripts'
 
-CopyItem -from '\\n-test-as22\d$\scripts' -to $dDrivePath -Force -Recurse -wait
+CopyItem -from $ScriptsShare -to $dDrivePath -Force -verbose -Recurse -wait
 
 Write-Host 'Copying certificates'
 
-CopyItem -from $certsShare -to $dDrivePath -Force -Recurse -wait
+CopyItem -from $certsShare -to $dDrivePath -Force -verbose -Recurse -wait
 
 Write-Host 'copy certificates to D:\Java\jdk1.8.0_112\jre\lib\security'
 
-CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_112\jre\lib\security' -Force -Recurse -wait
+CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_112\jre\lib\security' -Force -verbose -Recurse -wait
 
 Write-Host 'Unzip jboss-as-NEAT_NonProd.zip to d:\jboss\jboss-eap-6.4.0'
 
 Add-Type -assembly "system.io.compression.filesystem"
 
-[io.compression.zipfile]::ExtractToDirectory($BackUpPath, $jbossDestination)
+[io.compression.zipfile]::ExtractToDirectory($ZipLocalPath, $jbossDestination)
 
 Write-Host 'share the folder D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone with everyone'
 
@@ -78,15 +92,3 @@ cmd.exe /c "D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\modules\system\layers\base\na
 Write-Host 'Adding BCAA domain users to local Administrators Group'
 
 Add-LocalGroupMember -Group "Administrators" -Member $JbossWinTestUser, $nbatchtUser, $bamboouser
-
-# Function Copy Item
-
-Function CopyItem ($from, $to)
-{
-    if (!(Test-Path $to)) {
-        md $to
-    }
-    Copy-Item -Path $from $to -Recurse -Force
-    $?
-   if($false) {Return}
- }
