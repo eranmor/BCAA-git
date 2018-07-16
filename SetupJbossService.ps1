@@ -89,6 +89,10 @@ Write-Host 'Installing Jboss service'
 
 cmd.exe /c "D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\modules\system\layers\base\native\sbin\service.bat install /controller $ipaddress"
 
+Write-Host "Setting service 'JBossEAP6' to start manually"
+
+Set-Service -Name JBossEAP6 -StartupType Automatic
+
 Write-Host 'Adding BCAA domain users to local Administrators Group'
 
 Add-LocalGroupMember -Group "Administrators" -Member $JbossWinTestUser, $nbatchtUser, $bamboouser
