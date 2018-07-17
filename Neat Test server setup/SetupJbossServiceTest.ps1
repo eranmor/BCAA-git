@@ -15,7 +15,7 @@ $jbossPath = "d:\jboss"
 $windowsPath = "c:\Windows"
 $ProgramFiles = "C:\Program Files (x86)"
 $dDrivePath = "d:\"
-$certsShare = "\\nea-tst-app030\c$\users\johng\desktop\Certs\"
+$certsShare = "\\nova\IS\NEAT\New test server repo\certs"
 $certsLocal = "d:\certs"
 $ip=get-WmiObject Win32_NetworkAdapterConfiguration|Where {$_.Ipaddress.length -gt 1}
 $ipaddress = $ip.ipaddress[0]
@@ -23,7 +23,7 @@ $JbossWinTestUser = "bcaa.bc.ca\JbossWinTest"
 $nbatchtUser = "bcaa.bc.ca\nbatcht"
 $bamboouser = "bcaa.bc.ca\bamboo"
 $CygwinFolder = "c:\"
-$ScriptsShare = "\\nova\IS\NEAT\scripts"
+$ScriptsShare = "\\nova\IS\NEAT\New test server repo\scripts"
 
 Function CopyItem ($from, $to)
 {
