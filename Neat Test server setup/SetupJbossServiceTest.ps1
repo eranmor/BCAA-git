@@ -23,7 +23,7 @@ $JbossWinTestUser = "bcaa.bc.ca\JbossWinTest"
 $nbatchtUser = "bcaa.bc.ca\nbatcht"
 $bamboouser = "bcaa.bc.ca\bamboo"
 $CygwinFolder = "c:\"
-$ScriptsShare = "\\nova\IS\NEAT"
+$ScriptsShare = "\\nova\IS\NEAT\scripts"
 
 Function CopyItem ($from, $to)
 {
@@ -40,7 +40,7 @@ Function CopyItem ($from, $to)
 [System.Environment]::SetEnvironmentVariable('JAVA_HOME', 'D:\Java\jdk1.8.0_172' , [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable('JBOSS_HOME', 'D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4', [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable('NOPAUSE', 1, [System.EnvironmentVariableTarget]::Machine)
-[System.Environment]::SetEnvironmentVariable('SERVER_OPTS', '-b 0.0.0.0 -c standalone-full.xml -b 0.0.0.0 -c standalone-full.xml -P=%JBOSS_HOME%\standalone\deployments\neat.properties', [System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable('SERVER_OPTS', '-b 0.0.0.0 -c standalone-full.xml -P=%JBOSS_HOME%\standalone\deployments\neat.properties', [System.EnvironmentVariableTarget]::Machine)
 
 write-host 'Creating d:\BlazeDataLogFiles and d:\jboss Folders'
 
@@ -92,6 +92,7 @@ cmd.exe /c "D:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\modules\system\layers\base\na
 Write-Host "Setting service 'JBossEAP6' to start manually"
 
 Set-Service -Name JBossEAP6 -StartupType Automatic
+Start-Service -Name JBossEAP6
 
 Write-Host 'Adding BCAA domain users to local Administrators Group'
 
