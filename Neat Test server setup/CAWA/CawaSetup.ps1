@@ -12,4 +12,3 @@ netsh advfirewall firewall add rule name="Allow CAWA Connections" dir=in action=
 Write-host "Setting CA Workload Automation Agent to start automatically"
 
 Set-Service -Name 'CA Workload Automation Agent' -StartupType Automatic
-Start-Service -Name 'CA Workload Automation Agent'
