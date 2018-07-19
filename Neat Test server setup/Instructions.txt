@@ -1,0 +1,1 @@
+#### Make sure to install Java prior to installing any other component ###

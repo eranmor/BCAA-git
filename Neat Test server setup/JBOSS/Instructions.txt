@@ -1,0 +1,18 @@
+Author: Eran Mor eran.mor@bcaa.com
+Date: Jul-19-2018
+
+Preview:
+This script will perform:
+# Set environment variables.
+# Copy over jdbc driver 'sqljdbc_auth.dll' to c:\windows.
+# Copy over certificates.
+# Setup Jboss as a service.
+# Install Jboss controller.
+# Add service accounts 'JbossWinTest', 'nbatcht','bamboo' to local 'Administrors' group.
+
+Instructions:
+# Make sure to install Java JDK prior to running the script.
+# Open powershell and run ./SetupJbossServiceTest.ps1.
+# Modify prune.cfg and rcopy.cfg replacing the server name.
+# Set the jboss service JBOSSEAP6 to run under the correct service account.
+# Done

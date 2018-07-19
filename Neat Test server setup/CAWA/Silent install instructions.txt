@@ -1,0 +1,14 @@
+Author: Eran Mor eran.mor@bcaa.com
+Date: Jul-19-2018
+Preview:
+This script will perform 3 actions:
+1. Install Cawa Agent as a service.
+2. Create firewall rule allowing the agent connect with the CAWA server.
+3. Setting the 'CA Workload Automation Agent' service to start automatically but does not start the service.
+
+Instructions:
+#. Open win_installer.properties and change AGENT_INFO_1={computername} and STRONG_ENCRYPTION_KEYGEN={licenseNumber}.
+#. Open powershell as Administrator.
+#. Make sure 'setup.exe' and 'win_installer.properties' files are at the same location and run ./cawasetup.ps1.
+#. Open 'services' and configure the 'CA Workload Automation Agent' service to run wiht the correct username and password.
+#. Done
