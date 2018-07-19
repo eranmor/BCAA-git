@@ -22,7 +22,7 @@ oracle.install.responseFileVersion=/oracle/install/rspfmt_clientinstall_response
 # hostname rather than using the first hostname found on the system
 # (e.g., for systems with multiple hostnames and network interfaces).
 #-------------------------------------------------------------------------------
-ORACLE_HOSTNAME=%computername%.%userdnsdomain%
+ORACLE_HOSTNAME=
 
 #-------------------------------------------------------------------------------
 # Unix group to be set for the inventory directory.

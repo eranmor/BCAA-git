@@ -15,9 +15,9 @@ Write-Host "Install OracleClient12"
 
 New-Item -ItemType directory -Path "d:\Oracle"
 
-cmd.exe /c "d:\OracleClient12\setup.exe -silent -nowelcome  -responseFile 'd:\tmp\Neat Test server setup\Oracle\client_install.rsp'"
+& cmd.exe /c 'd:\OracleClient12\setup.exe -silent "ORACLE_HOSTNAME=%computername%.%userdnsdomain%" -nowelcome -responseFile "d:\tmp\Neat Test server setup\Oracle\client_install.rsp"' | Out-null
 
-Start-Sleep -s 30
+#Start-Sleep -s 90
 
 Copy-Item "d:\Oracle\product\12.1.0\client_1\jdbc\lib" -Destination "d:\jboss\jboss-eap-6.4.0\jboss-eap-6.4\standalone\deployments\" -Recurse -Verbose -Force
 
