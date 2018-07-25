@@ -72,9 +72,9 @@ Write-Host 'Copying certificates'
 
 CopyItem -from $certsShare -to $dDrivePath -Force -verbose -Recurse -wait
 
-Write-Host 'copy certificates to D:\Java\jdk1.8.0_182\jre\lib\security'
+Write-Host 'copy certificates to D:\Java\jdk1.8.0_172\jre\lib\security'
 
-CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_182\jre\lib\security' -Force -verbose -Recurse -wait
+CopyItem -from $certsLocal -to 'D:\Java\jdk1.8.0_172\jre\lib\security' -Force -verbose -Recurse -wait
 
 Write-Host 'Unzip jboss-as-NEAT_NonProd.zip to d:\jboss\jboss-eap-6.4.0'
 
