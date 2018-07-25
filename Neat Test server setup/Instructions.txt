@@ -1,1 +1,8 @@
-#### Make sure to install Java prior to installing any other component ###
+#### Make sure to install all applications as Admin user ###
+
+Installation Order:
+
+- Java
+- Jboss
+- Oracle client
+- CAWA Agent
